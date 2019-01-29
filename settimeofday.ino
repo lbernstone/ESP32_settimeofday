@@ -1,4 +1,20 @@
-#define TZ_INFO "MST7MDT6,M3.2.0/02:00:00,M11.1.0/02:00:00" //"America/Denver"
+/* settimeofday example
+  Copyright 2019 Larry Bernstone (lbernstone@gmail.com)
+  All rights reserved
+
+  This example is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
+
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
+*/
+
+#define TZ_INFO "MST7MDT6,M3.2.0/02:00:00,M11.1.0/02:00:00" //"America/Denver" 
+// see http://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html
 #define PRINT_DELAY 10
 
 #include <sys/time.h>
@@ -13,7 +29,7 @@ int setUnixtime(int32_t unixtime) {
 void timePrint() {
   struct tm now;
   getLocalTime(&now,0);
-  if (now.tm_year >= 117) Serial.println(&now," %B %d %Y %H:%M:%S (%A)");
+  if (now.tm_year >= 117) Serial.println(&now, "%B %d %Y %H:%M:%S (%A)");
 }
 
 void setup() {
