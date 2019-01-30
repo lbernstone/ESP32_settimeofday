@@ -15,12 +15,16 @@
 
 #define TZ_INFO "MST7MDT6,M3.2.0/02:00:00,M11.1.0/02:00:00" //"America/Denver" 
 // see http://www.gnu.org/software/libc/manual/html_node/TZ-Variable.html
-#define PRINT_DELAY 10
+#define PRINT_DELAY 10 //seconds
 
 #include <sys/time.h>
 #include <Ticker.h>
 Ticker time_print;
 
+/* This function sets the internal time. The timeval
+   struct is seconds, milliseconds. settimeofday parameters are
+   epoch_time, timezone. 
+*/
 int setUnixtime(int32_t unixtime) {
   timeval epoch = {unixtime, 0};
   return settimeofday((const timeval*)&epoch, 0);
@@ -35,12 +39,13 @@ void timePrint() {
 void setup() {
   Serial.begin(115200);
   setenv("TZ", TZ_INFO, 1);
-  tzset();
-  time_print.attach(PRINT_DELAY, timePrint);
+  tzset(); // Assign the local timezone from setenv
+  time_print.attach(PRINT_DELAY, timePrint); // Schedule the timeprint function
   Serial.setTimeout(LONG_MAX); //don't timeout
 }
 
 void loop() {
+  // Wait for input from serial (note that this is blocking)
   String timeStr = Serial.readStringUntil('\n');
   uint32_t timeInt32 = atoi(timeStr.c_str());
   if (timeInt32 == 0) return;
