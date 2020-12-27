@@ -41,6 +41,7 @@ void setup() {
   setenv("TZ", TZ_INFO, 1);
   tzset(); // Assign the local timezone from setenv
   time_print.attach(PRINT_DELAY, timePrint); // Schedule the timeprint function
+  disableCore0WDT(); //turn off WDT since we will have a blocking task
   Serial.setTimeout(LONG_MAX); //don't timeout
 }
 
